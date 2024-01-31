@@ -1,11 +1,11 @@
-import ToktokItem from './ToktokItem';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import Pagination from 'react-js-pagination';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { getLoginUser } from '../../../features/userInfoSlice';
+import ToktokItem from "./ToktokItem";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import Pagination from "react-js-pagination";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { getLoginUser } from "../../../features/userInfoSlice";
 
 const ToktokWrapper = styled.div`
   margin: 0 auto;
@@ -21,18 +21,18 @@ const ToktokWrapper = styled.div`
   .between {
     display: flex;
     justify-content: space-between;
-      .post-btn {
-        border: none;
-        padding: 10px 15px;
-        border-radius: 10px;
-        background-color: #68A6FE;
-        color: #fff;
-        font-weight: bold;
-        transition: 0.3s;
-      }
-      .post-btn:hover {
-        background-color: #3286fc;
-      }
+    .post-btn {
+      border: none;
+      padding: 10px 15px;
+      border-radius: 10px;
+      background-color: #68a6fe;
+      color: #fff;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .post-btn:hover {
+      background-color: #3286fc;
+    }
   }
   .test {
     font-size: 33px;
@@ -41,8 +41,9 @@ const ToktokWrapper = styled.div`
   }
 `;
 
-const PagWrapper = styled.div` // 페이지네이션
-.pagination {
+const PagWrapper = styled.div`
+  // 페이지네이션
+  .pagination {
     display: flex;
     justify-content: center;
     margin-top: 15px;
@@ -61,10 +62,10 @@ const PagWrapper = styled.div` // 페이지네이션
     align-items: center;
     font-size: 1rem;
   }
-  ul.pagination li:first-child{
+  ul.pagination li:first-child {
     border-radius: 5px 0 0 5px;
   }
-  ul.pagination li:last-child{
+  ul.pagination li:last-child {
     border-radius: 0 5px 5px 0;
   }
   ul.pagination li a {
@@ -96,27 +97,33 @@ function Toktok(props) {
   const [getList, setGetList] = useState();
   const [comment, setComment] = useState();
 
-  const 로그인중 = useSelector(getLoginUser) // 현재 로그인중 유저 정보
+  const 로그인중 = useSelector(getLoginUser); // 현재 로그인중 유저 정보
 
   useEffect(() => {
     const toktokListGet = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/community/toktok`);
+        const response = await axios.get(
+          `${process.env.REACT_APP_SERVER_DOMAIN}/community/toktok`
+        );
         await setGetList(response.data.data);
       } catch (error) {
         console.error(error);
       }
-    }
+    };
     toktokListGet();
+    console.log(process.env.REACT_APP_SERVER_DOMAIN);
 
     const commentGet = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/community/toktok/comment`, { withCredentials: true });
+        const response = await axios.get(
+          `${process.env.REACT_APP_SERVER_DOMAIN}/community/toktok/comment`,
+          { withCredentials: true }
+        );
         setComment(response.data.commentData);
       } catch (error) {
         console.error(error);
       }
-    }
+    };
     commentGet();
   }, []);
 
@@ -128,10 +135,10 @@ function Toktok(props) {
     if (로그인중) {
       navigate(`/community/insert/toktok`);
     } else {
-      alert('로그인 시 이용 가능합니다.')
+      alert("로그인 시 이용 가능합니다.");
       navigate(`/login`);
     }
-  }
+  };
 
   return (
     <ToktokWrapper>
@@ -143,34 +150,43 @@ function Toktok(props) {
           pageRangeDisplayed={5}
           prevPageText={"‹"}
           nextPageText={"›"}
-          onChange={handlePageChange} />
+          onChange={handlePageChange}
+        />
       </PagWrapper>
       <h1>육아톡톡</h1>
-      <br /><br />
-      <div className='between'>
-        <span>반려 생활 중 고민거리, 궁금증이 있으신가요? 지금 바로 질문해 보세요</span>
-        <button className='click post-btn' onClick={() => insertClick()}>질문하러 가기</button>
+      <br />
+      <br />
+      <div className="between">
+        <span>
+          반려 생활 중 고민거리, 궁금증이 있으신가요? 지금 바로 질문해 보세요
+        </span>
+        <button className="click post-btn" onClick={() => insertClick()}>
+          질문하러 가기
+        </button>
       </div>
-      <br /><hr />
+      <br />
+      <hr />
       <div>
-        {getList?.map((getListMap) => { // 게시글들 맵
-          return <ToktokItem
-            key={getListMap._id}
-            _id={getListMap._id}
-            title={getListMap.title}
-            content={getListMap.content}
-            user={getListMap.user}
-            imgUrl={getListMap.imgUrl}
-            like={getListMap.like}
-            view={getListMap.view}
-            date={getListMap.date}
-            comment={comment}
-          />
-        }).slice(((page * 4) - 4), (page * 4))}
+        {getList
+          ?.map((getListMap) => {
+            // 게시글들 맵
+            return (
+              <ToktokItem
+                key={getListMap._id}
+                _id={getListMap._id}
+                title={getListMap.title}
+                content={getListMap.content}
+                user={getListMap.user}
+                imgUrl={getListMap.imgUrl}
+                like={getListMap.like}
+                view={getListMap.view}
+                date={getListMap.date}
+                comment={comment}
+              />
+            );
+          })
+          .slice(page * 4 - 4, page * 4)}
       </div>
-
-
-
 
       {/* 남은거..
   ) 포스트 삭제시 이동 ㅇ
@@ -184,9 +200,6 @@ function Toktok(props) {
   ) ㅇㅇㅇ??????????????
 
 */}
-
-
-
     </ToktokWrapper>
   );
 }
