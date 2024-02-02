@@ -111,7 +111,6 @@ function Toktok(props) {
       }
     };
     toktokListGet();
-    console.log(process.env.REACT_APP_SERVER_DOMAIN);
 
     const commentGet = async () => {
       try {
