@@ -17,6 +17,7 @@ const ToktokItemWrapper = styled.div`
   transition: 0.2s;
   &:hover {
     border: 2px solid #000;
+    transform: scale(1.01);
   }
   .title {
     font-size: 16px;
@@ -97,11 +98,7 @@ function ToktokItem(props) {
       if (!로그인중) {
         alert("로그인 시 이용 가능");
       } else {
-        const a = await axios.post(
-          `${process.env.REACT_APP_SERVER_DOMAIN}/community/toktok/like`,
-          { user: 로그인중, postId: _id },
-          { withCredentials: true }
-        );
+        const a = await axios.post(`${process.env.REACT_APP_SERVER_DOMAIN}/community/toktok/like`, { user: 로그인중, postId: _id }, { withCredentials: true });
         setLikeNum(a.data.data.like);
         setTest(a.data.data.like);
       }
@@ -111,11 +108,7 @@ function ToktokItem(props) {
   };
   const addView = async () => {
     try {
-      await axios.post(
-        `${process.env.REACT_APP_SERVER_DOMAIN}/community/toktok/view`,
-        { postId: _id },
-        { withCredentials: true }
-      );
+      await axios.post(`${process.env.REACT_APP_SERVER_DOMAIN}/community/toktok/view`, { postId: _id }, { withCredentials: true });
     } catch (error) {
       console.error(error);
     }
@@ -160,26 +153,11 @@ function ToktokItem(props) {
             detailClick();
           }}
         >
-          <h5 className="title">
-            {props.title.length > 20
-              ? props.title.slice(0, 20) + "..."
-              : props.title}
-          </h5>
-          <span className="content">
-            {props.content.length > 35
-              ? props.content.slice(0, 35) + "..."
-              : props.content}
-          </span>
+          <h5 className="title">{props.title.length > 20 ? props.title.slice(0, 20) + "..." : props.title}</h5>
+          <span className="content">{props.content.length > 35 ? props.content.slice(0, 35) + "..." : props.content}</span>
         </div>
         <div className="likeCommentView">
-          <button
-            className={`${
-              likeFilter?.length
-                ? "material-symbols-outlined googlered"
-                : "material-symbols-outlined"
-            }`}
-            onClick={handleLike}
-          >
+          <button className={`${likeFilter?.length ? "material-symbols-outlined googlered" : "material-symbols-outlined"}`} onClick={handleLike}>
             {" "}
             favorite
           </button>
