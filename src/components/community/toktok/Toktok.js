@@ -102,9 +102,7 @@ function Toktok(props) {
   useEffect(() => {
     const toktokListGet = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_SERVER_DOMAIN}/community/toktok`
-        );
+        const response = await axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/community/toktok`);
         await setGetList(response.data.data);
       } catch (error) {
         console.error(error);
@@ -114,10 +112,7 @@ function Toktok(props) {
 
     const commentGet = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_SERVER_DOMAIN}/community/toktok/comment`,
-          { withCredentials: true }
-        );
+        const response = await axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/community/toktok/comment`, { withCredentials: true });
         setComment(response.data.commentData);
       } catch (error) {
         console.error(error);
@@ -156,9 +151,7 @@ function Toktok(props) {
       <br />
       <br />
       <div className="between">
-        <span>
-          반려 생활 중 고민거리, 궁금증이 있으신가요? 지금 바로 질문해 보세요
-        </span>
+        <span>반려 생활 중 고민거리, 궁금증이 있으신가요? 지금 바로 질문해 보세요</span>
         <button className="click post-btn" onClick={() => insertClick()}>
           질문하러 가기
         </button>

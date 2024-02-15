@@ -31,29 +31,44 @@ const PersonalDogWrapper = styled.div`
     margin: 30px 0;
     display: flex;
     justify-content: center;
+    border: 1px solid #000;
+    border-radius: 10px;
+    background-color: #f7f7f7;
     h4 {
       font-size: 24px;
       margin-bottom: 35px;
       border-bottom: 2px solid #eee;
-      padding-bottom: 20px;
+      padding: 20px 0;
     }
     .toktok {
       max-width: 300px;
       margin: 0 30px;
       flex: 1;
       font-size: 14px;
+      font-weight: 700;
+      p {
+        background-color: #fff;
+      }
     }
     .daily {
       max-width: 300px;
       margin: 0 30px;
       flex: 1;
       font-size: 14px;
+      font-weight: 700;
+      p {
+        background-color: #fff;
+      }
     }
     .shop {
       max-width: 300px;
       margin: 0 30px;
       flex: 1;
       font-size: 14px;
+      font-weight: 700;
+      p {
+        background-color: #fff;
+      }
     }
     .slider {
       margin-bottom: 30px;

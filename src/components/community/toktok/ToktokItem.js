@@ -40,6 +40,9 @@ const ToktokItemWrapper = styled.div`
     span {
       padding: 0 7px;
     }
+    .expiredDate {
+      color: #68a6fe;
+    }
   }
   .material-symbols-outlined {
     // 구글 머터리얼 아이콘
@@ -92,7 +95,6 @@ function ToktokItem(props) {
   const commentFilter = comment?.filter((commentFilter) => {
     return commentFilter?.postId === _id;
   });
-  console.log(로그인중);
   const handleLike = async () => {
     try {
       if (!로그인중) {
@@ -166,7 +168,7 @@ function ToktokItem(props) {
           <span>{commentFilter ? commentFilter.length : 0}</span>
           <span className="material-symbols-outlined">visibility</span>
           <span>{view ? view?.length : 0}</span>
-          <span>{경과일}</span>
+          <span className="expiredDate">{경과일}</span>
         </div>
       </div>
       <div className="toktokColumn">

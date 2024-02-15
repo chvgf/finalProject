@@ -72,8 +72,6 @@ const StyledTable = styled(Table)`
 function NewToktok(props) {
   const { items } = props;
 
-  console.log(items);
-
   const navigate = useNavigate();
   const testList = useSelector(selectToktokList);
   return (
@@ -93,7 +91,7 @@ function NewToktok(props) {
             return (
               <tr key={item._id} onClick={() => navigate(`/community/Toktok/${item.author}`)}>
                 <td>
-                  <img src={item.imgUrl[0] ? item.imgUrl[0] : nophoto} />
+                  <img src={item.imgUrl ? item.imgUrl : nophoto} />
                 </td>
                 <td>{item.title}</td>
                 <td>{item.content}</td>

@@ -1,8 +1,8 @@
-import React from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
-import styled from 'styled-components';
-import nophoto from '../../../image/nophoto.jpg'
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { Col, Container, Row } from "react-bootstrap";
+import styled from "styled-components";
+import nophoto from "../../../image/nophoto.jpg";
+import { useNavigate } from "react-router-dom";
 
 const NewDailyDogContainer = styled.div`
   margin-top: 20px;
@@ -44,19 +44,18 @@ function NewDailyDog(props) {
   const navigate = useNavigate();
 
   const { items } = props;
-
   return (
     <NewDailyDogContainer>
       <Container>
         <Row>
-          {items.map(item => {
+          {items.map((item) => {
             return (
-              <StyledCol sm key={item._id} onClick={() => navigate(`/community/dailydog/detail/${item.id}`)} >
-                <img src={item.imgUrl[0] ? item.imgUrl[0] : nophoto}/>
+              <StyledCol sm key={item._id} onClick={() => navigate(`/community/dailydog/detail/${item.id}`)}>
+                <img src={item.imgUrl[0] ? item.imgUrl[0] : nophoto} />
                 <h3>{item.title}</h3>
               </StyledCol>
-              )
-            })}
+            );
+          })}
         </Row>
       </Container>
     </NewDailyDogContainer>

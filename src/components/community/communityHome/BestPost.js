@@ -1,8 +1,8 @@
-import React from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
-import styled from 'styled-components';
-import nophoto from '../../../image/nophoto.jpg'
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { Col, Container, Row } from "react-bootstrap";
+import styled from "styled-components";
+import nophoto from "../../../image/nophoto.jpg";
+import { useNavigate } from "react-router-dom";
 
 const BestPostContainer = styled.div`
   margin-top: 20px;
@@ -49,8 +49,8 @@ const StyledCol = styled(Col)`
 `;
 
 const mappings = {
-  toktok: '육아톡톡',
-  daily: '데일리독'
+  toktok: "육아톡톡",
+  daily: "데일리독",
 };
 
 function BestPost(props) {
@@ -59,28 +59,27 @@ function BestPost(props) {
   const { items } = props;
 
   const handleMove = (item) => {
-
-    if (item.type === 'daily') {
-      return navigate(`/community/dailydog/detail/${item.id}`)
+    if (item.type === "daily") {
+      return navigate(`/community/dailydog/detail/${item.id}`);
     }
-    if (item.type === 'toktok') {
-      return navigate(`/community/Toktok/${item._id}`)
+    if (item.type === "toktok") {
+      return navigate(`/community/Toktok/${item._id}`);
     }
-  }
+  };
 
   return (
     <BestPostContainer>
       <Container>
         <Row>
-          {items.map(item => {
+          {items.map((item) => {
             return (
               <StyledCol sm key={item._id} onClick={() => handleMove(item)}>
-                <img src={item.imgUrl[0] ? item.imgUrl[0] : nophoto}/>
+                <img src={item.imgUrl ? item.imgUrl : nophoto} />
                 <h4>{mappings[item.type]}</h4>
                 <h3>{item.title}</h3>
               </StyledCol>
-              )
-            })}
+            );
+          })}
         </Row>
       </Container>
     </BestPostContainer>
