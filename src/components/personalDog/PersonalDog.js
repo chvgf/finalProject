@@ -52,7 +52,7 @@ const PersonalDogWrapper = styled.div`
     }
     .daily {
       max-width: 300px;
-      margin: 0 30px;
+      margin: 0 45px;
       flex: 1;
       font-size: 14px;
       font-weight: 700;
@@ -109,6 +109,16 @@ const PersonalDogWrapper = styled.div`
         line-height: 30px;
       }
     }
+    .slick-next {
+      &::before {
+        color: #68a6fe;
+      }
+    }
+    .slick-prev {
+      &::before {
+        color: #68a6fe;
+      }
+    }
 
     .KaKaoMap {
       width: 900px;
@@ -143,7 +153,18 @@ function PersonalDog(props) {
     slidesToShow: 1,
     slidesToScroll: 1,
     rows: 3,
-    // slidesPerRow: 2
+    // slidesPerRow: 2,
+    arrows: true,
+    prevArrow: (
+      <button type="button" class="slick-prev">
+        Previous
+      </button>
+    ),
+    nextArrow: (
+      <button type="button" class="slick-next">
+        Next
+      </button>
+    ),
   };
 
   const testDogInfo = [
