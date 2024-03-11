@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import Parser from 'html-react-parser'
-import styled from 'styled-components';
-import axios from 'axios';
-import DailyDogComment from './DailyDogComment';
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import Parser from "html-react-parser";
+import styled from "styled-components";
+import axios from "axios";
+import DailyDogComment from "./DailyDogComment";
 import { BiLike, BiDislike } from "react-icons/bi";
-import { dateFormat, needLogin } from '../../../util';
-import { getLoginUser } from '../../../features/userInfoSlice';
-import { useSelector } from 'react-redux';
+import { dateFormat, needLogin } from "../../../util";
+import { getLoginUser } from "../../../features/userInfoSlice";
+import { useSelector } from "react-redux";
 
 const DailyDogDetailContainer = styled.div`
   max-width: 1200px;
   min-height: 800px;
   margin: 70px auto;
   text-align: center;
-  
+
   .title-box {
     h1 {
       font-size: 20px;
@@ -57,7 +57,7 @@ const DailyDogDetailContainer = styled.div`
       opacity: 0.7;
     }
   }
-  
+
   .content-box {
     margin: 40px auto;
     max-width: 460px;
@@ -88,18 +88,18 @@ const DailyDogDetailContainer = styled.div`
     }
 
     .up-btn-acitve {
-      background-color: #DC143C;
+      background-color: #dc143c;
     }
 
     .down-btn-acitve {
-      background-color: #4169E1;
+      background-color: #4169e1;
     }
   }
 
   .listbtn-box {
     display: flex;
     justify-content: flex-end;
-    
+
     button {
       margin-bottom: 12px;
       border: none;
@@ -154,7 +154,6 @@ const DailyDogDetailContainer = styled.div`
     }
 
     .comment-list-box {
-
       img {
         width: 50px;
         height: 50px;
@@ -196,14 +195,13 @@ const DailyDogDetailContainer = styled.div`
               cursor: pointer;
               border: none;
               background: none;
-              display : inline-flex;
+              display: inline-flex;
               align-items: center;
               color: red;
             }
           }
 
           .comment-expanded {
-            
             p {
               padding: 0;
             }
@@ -224,12 +222,12 @@ function DailyDogDetail(props) {
   const { id } = useParams();
   const navigate = useNavigate();
   const user = useSelector(getLoginUser);
-  const [ item, setItem ] = useState('');
-  const [ likeBtn, setLikeBtn ] = useState({
+  const [item, setItem] = useState("");
+  const [likeBtn, setLikeBtn] = useState({
     upBtn: false,
     downBtn: false,
   });
-  const [ likeCount, setLikeCount ] = useState({
+  const [likeCount, setLikeCount] = useState({
     upCount: 0,
     downCount: 0,
   });
@@ -243,117 +241,126 @@ function DailyDogDetail(props) {
         const responseItem = await axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/community/daily/detail/${id}`);
         setItem(responseItem.data.postData);
 
-        setLikeCount(prev => ({ ...prev, upCount: responseItem.data.postData.like.length, downCount: responseItem.data.postData.dislike.length }));
+        setLikeCount((prev) => ({
+          ...prev,
+          upCount: responseItem.data.postData?.like.length,
+          downCount: responseItem.data.postData?.dislike.length,
+        }));
 
         if (user) {
-          if (responseItem.data.postData.like.filter(id => id == user._id) == user._id) {
-            setLikeBtn(prev => ({ ...prev, upBtn: true }));
-          } 
-          if (responseItem.data.postData.dislike.filter(id => id == user._id) == user._id) {
-            setLikeBtn(prev => ({ ...prev, downBtn: true }));
+          if (responseItem.data.postData?.like.filter((id) => id == user._id) == user._id) {
+            setLikeBtn((prev) => ({ ...prev, upBtn: true }));
+          }
+          if (responseItem.data.postData?.dislike.filter((id) => id == user._id) == user._id) {
+            setLikeBtn((prev) => ({ ...prev, downBtn: true }));
           }
         }
       } catch (err) {
         console.error(err);
       }
-    }
+    };
     dailyDogData();
-  }, [])
+  }, []);
 
   if (!item) {
     return null;
   }
 
   const toggleLikeUpBtn = async () => {
-
     if (!user) {
-      return alert('로그인 후 이용할 수 있습니다.')
+      return alert("로그인 후 이용할 수 있습니다.");
     } else if (user.signUserNicname === item.author) {
-      return alert('내가 남긴 글을 좋아요 할 수 없습니다.');
+      return alert("내가 남긴 글을 좋아요 할 수 없습니다.");
     } else {
       if (!upBtn) {
-        const res = await axios.patch(`${process.env.REACT_APP_SERVER_DOMAIN}/community/daily/likedown/down`, { postId: item._id, authorId: user._id });
-        const response = await axios.patch(`${process.env.REACT_APP_SERVER_DOMAIN}/community/daily/likeup/up`, { postId: item._id, authorId: user._id });
-        setLikeBtn(prev => ({ ...prev, upBtn: !upBtn, downBtn: false }));
-        setLikeCount(prev => ({ ...prev, upCount: response.data.count, downCount: res.data.count }));
+        const res = await axios.patch(`${process.env.REACT_APP_SERVER_DOMAIN}/community/daily/likedown/down`, {
+          postId: item._id,
+          authorId: user._id,
+        });
+        const response = await axios.patch(`${process.env.REACT_APP_SERVER_DOMAIN}/community/daily/likeup/up`, {
+          postId: item._id,
+          authorId: user._id,
+        });
+        setLikeBtn((prev) => ({ ...prev, upBtn: !upBtn, downBtn: false }));
+        setLikeCount((prev) => ({ ...prev, upCount: response.data.count, downCount: res.data.count }));
       } else {
-        const response = await axios.patch(`${process.env.REACT_APP_SERVER_DOMAIN}/community/daily/likeup/down`, { postId: item._id, authorId: user._id });
-        setLikeBtn(prev => ({ ...prev, upBtn: !upBtn }));
-        setLikeCount(prev => ({ ...prev, upCount: response.data.count}));
+        const response = await axios.patch(`${process.env.REACT_APP_SERVER_DOMAIN}/community/daily/likeup/down`, {
+          postId: item._id,
+          authorId: user._id,
+        });
+        setLikeBtn((prev) => ({ ...prev, upBtn: !upBtn }));
+        setLikeCount((prev) => ({ ...prev, upCount: response.data.count }));
       }
     }
   };
-  
-  const toggleLikeDownBtn = async () => {
 
+  const toggleLikeDownBtn = async () => {
     if (!user) {
-      return alert('로그인 후 이용할 수 있습니다.')
+      return alert("로그인 후 이용할 수 있습니다.");
     } else if (user.signUserNicname === item.author) {
-      return alert('내가 남긴 글을 싫어요 할 수 없습니다.');
+      return alert("내가 남긴 글을 싫어요 할 수 없습니다.");
     } else {
       if (!downBtn) {
-        const res = await axios.patch(`${process.env.REACT_APP_SERVER_DOMAIN}/community/daily/likeup/down`, { postId: item._id, authorId: user._id });
-        const response = await axios.patch(`${process.env.REACT_APP_SERVER_DOMAIN}/community/daily/likedown/up`, { postId: item._id, authorId: user._id });
-        setLikeBtn(prev => ({ ...prev, downBtn: !downBtn, upBtn: false }));
-        setLikeCount(prev => ({ ...prev, downCount: response.data.count, upCount: res.data.count }));
+        const res = await axios.patch(`${process.env.REACT_APP_SERVER_DOMAIN}/community/daily/likeup/down`, {
+          postId: item._id,
+          authorId: user._id,
+        });
+        const response = await axios.patch(`${process.env.REACT_APP_SERVER_DOMAIN}/community/daily/likedown/up`, {
+          postId: item._id,
+          authorId: user._id,
+        });
+        setLikeBtn((prev) => ({ ...prev, downBtn: !downBtn, upBtn: false }));
+        setLikeCount((prev) => ({ ...prev, downCount: response.data.count, upCount: res.data.count }));
       } else {
-        const response = await axios.patch(`${process.env.REACT_APP_SERVER_DOMAIN}/community/daily/likedown/down`, { postId: item._id, authorId: user._id });
-        setLikeBtn(prev => ({ ...prev, downBtn: !downBtn }));
-        setLikeCount(prev => ({ ...prev, downCount: `${response.data.count}`}));
+        const response = await axios.patch(`${process.env.REACT_APP_SERVER_DOMAIN}/community/daily/likedown/down`, {
+          postId: item._id,
+          authorId: user._id,
+        });
+        setLikeBtn((prev) => ({ ...prev, downBtn: !downBtn }));
+        setLikeCount((prev) => ({ ...prev, downCount: `${response.data.count}` }));
       }
     }
   };
 
   const handleDeleteItem = async () => {
-
     try {
       await axios.delete(`${process.env.REACT_APP_SERVER_DOMAIN}/community/daily/delete/${item.id}`);
-      alert('게시글을 삭제하였습니다.');
+      alert("게시글을 삭제하였습니다.");
       navigate(-1);
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   return (
     <DailyDogDetailContainer>
-      <div className='title-box'>
+      <div className="title-box">
         <h1>{item.title}</h1>
-          {user && user._id === item.authorId
-            ?
-            <div className='edit-box'>
-              <button onClick={() => navigate(`/community/dailydog/edit/${item._id}`)}>수정</button>
-              <button onClick={handleDeleteItem}>삭제</button>
-            </div>
-            : null
-          } 
-          
-        <div className='subtitle-box'>
+        {user && user._id === item.authorId ? (
+          <div className="edit-box">
+            <button onClick={() => navigate(`/community/dailydog/edit/${item._id}`)}>수정</button>
+            <button onClick={handleDeleteItem}>삭제</button>
+          </div>
+        ) : null}
+
+        <div className="subtitle-box">
           <p>{item.author}</p>
           <p>{dateFormat(item.date)}</p>
           <p>조회 {item.view}</p>
         </div>
       </div>
-      <div className='content-box'>
-        {Parser(item.content)}
-      </div>
-      <div className='like-box'>
+      <div className="content-box">{Parser(item.content)}</div>
+      <div className="like-box">
         <p>{downCount == 0 ? 0 : `-${downCount}`}</p>
-        <button 
-          className={`like-btn ${downBtn && 'down-btn-acitve'}`} 
-          onClick={toggleLikeDownBtn}
-          >
+        <button className={`like-btn ${downBtn && "down-btn-acitve"}`} onClick={toggleLikeDownBtn}>
           <BiDislike />
         </button>
-        <button 
-          className={`like-btn ${upBtn && 'up-btn-acitve'}`} 
-          onClick={toggleLikeUpBtn}
-        >
+        <button className={`like-btn ${upBtn && "up-btn-acitve"}`} onClick={toggleLikeUpBtn}>
           <BiLike />
         </button>
         <p>{upCount}</p>
       </div>
-      <div className='listbtn-box'>
+      <div className="listbtn-box">
         <button onClick={() => navigate(-1)}>목록</button>
       </div>
       <DailyDogComment item={item} user={user} />

@@ -236,7 +236,7 @@ function PersonalDog(props) {
                 <div
                   className="slider"
                   onClick={() => {
-                    navigate(`/community/dailydog/detail/${a.id}`);
+                    navigate(`/community/fleamarket/${a.id}`);
                   }}
                 >
                   <div className="sliderItem">
