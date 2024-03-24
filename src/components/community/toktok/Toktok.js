@@ -125,13 +125,16 @@ function Toktok(props) {
     setPage(page);
   };
 
+  // const insertClick = () => {    // 서버 https 문제 때문에 로그인 보류..
+  //   if (로그인중) {
+  //     navigate(`/community/insert/toktok`);
+  //   } else {
+  //     alert("로그인 시 이용 가능합니다.");
+  //     navigate(`/login`);
+  //   }
+  // };
   const insertClick = () => {
-    if (로그인중) {
-      navigate(`/community/insert/toktok`);
-    } else {
-      alert("로그인 시 이용 가능합니다.");
-      navigate(`/login`);
-    }
+    navigate(`/community/insert/toktok`);
   };
 
   return (
