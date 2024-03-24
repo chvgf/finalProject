@@ -100,7 +100,11 @@ function ToktokItem(props) {
       if (!로그인중) {
         alert("로그인 시 이용 가능");
       } else {
-        const a = await axios.post(`${process.env.REACT_APP_SERVER_DOMAIN}/community/toktok/like`, { user: 로그인중, postId: _id }, { withCredentials: true });
+        const a = await axios.post(
+          `${process.env.REACT_APP_SERVER_DOMAIN}/community/toktok/like`,
+          { user: 로그인중, postId: _id },
+          { withCredentials: true }
+        );
         setLikeNum(a.data.data.like);
         setTest(a.data.data.like);
       }
@@ -138,12 +142,15 @@ function ToktokItem(props) {
   }
   const 경과일 = elapsedTime(props.date);
 
+  // const detailClick = () => {  // 서버 https 문제 때문에 유효성 검사 보류..
+  //   if (로그인중) {
+  //     navigate(`/community/Toktok/${props._id}`);
+  //   } else {
+  //     alert("로그인 시 이용 가능합니다.");
+  //   }
+  // };
   const detailClick = () => {
-    if (로그인중) {
-      navigate(`/community/Toktok/${props._id}`);
-    } else {
-      alert("로그인 시 이용 가능합니다.");
-    }
+    navigate(`/community/Toktok/${props._id}`);
   };
 
   return (
@@ -159,7 +166,10 @@ function ToktokItem(props) {
           <span className="content">{props.content.length > 35 ? props.content.slice(0, 35) + "..." : props.content}</span>
         </div>
         <div className="likeCommentView">
-          <button className={`${likeFilter?.length ? "material-symbols-outlined googlered" : "material-symbols-outlined"}`} onClick={handleLike}>
+          <button
+            className={`${likeFilter?.length ? "material-symbols-outlined googlered" : "material-symbols-outlined"}`}
+            onClick={handleLike}
+          >
             {" "}
             favorite
           </button>
