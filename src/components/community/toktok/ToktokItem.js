@@ -154,12 +154,15 @@ function ToktokItem(props) {
   };
 
   return (
-    <ToktokItemWrapper>
+    <ToktokItemWrapper
+      onClick={() => {
+        detailClick();
+      }}
+    >
       <div className="toktokColumn">
         <div
           onClick={() => {
             addView();
-            detailClick();
           }}
         >
           <h5 className="title">{props.title.length > 20 ? props.title.slice(0, 20) + "..." : props.title}</h5>
