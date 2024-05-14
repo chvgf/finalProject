@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Table } from 'react-bootstrap';
-import styled from 'styled-components';
-import axios from 'axios';
-import { pay } from './Pay';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Table } from "react-bootstrap";
+import styled from "styled-components";
+import axios from "axios";
+import { pay } from "./Pay";
+import { useNavigate } from "react-router-dom";
 
 const CartWrapper = styled.div`
   max-width: 1200px;
@@ -74,8 +73,8 @@ const CartWrapper = styled.div`
 `;
 
 function Cart(props) {
-  const [ cartList, setCartList ] = useState([]);
-  const formatter = new Intl.NumberFormat('ko-KR');
+  const [cartList, setCartList] = useState([]);
+  const formatter = new Intl.NumberFormat("ko-KR");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -83,49 +82,47 @@ function Cart(props) {
       const result = await axios.post(`${process.env.REACT_APP_SERVER_DOMAIN}/shop/getCart`, {}, { withCredentials: true });
       if (result.data.result) setCartList(result.data.result.list);
       else setCartList();
-    }
+    };
     list();
   }, []);
 
   const handleMinus = async (postId, count) => {
     if (count === 1) {
-      alert('수량 1개 입니다!\n삭제 버튼을 눌러주세요.');
-      return ;
+      alert("수량 1개 입니다!\n삭제 버튼을 눌러주세요.");
+      return;
     }
-    const result = await axios.post(`${process.env.REACT_APP_SERVER_DOMAIN}/shop/minusCount`, {postId}, {withCredentials: true});
+    const result = await axios.post(`${process.env.REACT_APP_SERVER_DOMAIN}/shop/minusCount`, { postId }, { withCredentials: true });
     setCartList(result.data.result.list);
   };
 
   const handlePlus = async (postId) => {
-    const result = await axios.post(`${process.env.REACT_APP_SERVER_DOMAIN}/shop/plusCount`, {postId}, {withCredentials: true});
+    const result = await axios.post(`${process.env.REACT_APP_SERVER_DOMAIN}/shop/plusCount`, { postId }, { withCredentials: true });
     setCartList(result.data.result.list);
   };
-  
+
   const handleDelete = async (postId) => {
-    const result = await axios.post(`${process.env.REACT_APP_SERVER_DOMAIN}/shop/deleteCart`, {postId}, {withCredentials: true});
+    const result = await axios.post(`${process.env.REACT_APP_SERVER_DOMAIN}/shop/deleteCart`, { postId }, { withCredentials: true });
     setCartList(result.data.result.list);
   };
-  
+
   // 결제
   const handlePay = async () => {
     if (cartList) {
       const totalPrice = cartList.reduce((prev, cart) => {
-        return prev + (cart.price * cart.count);
+        return prev + cart.price * cart.count;
       }, 0);
       const result = pay(cartList[0], cartList[0].count, totalPrice, cartList.length - 1);
       console.log(result);
-      if (result.event == 'done' || result.event == 'issued') {
-        const result = await axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/shop/purchaseAdds`, {withCredentials: true});
+      if (result.event == "done" || result.event == "issued") {
+        const result = await axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/shop/purchaseAdds`, { withCredentials: true });
         if (result.data.flag) {
-          alert('결제가 완료되었습니다!');
-          navigate('/purchase');
-          }
+          alert("결제가 완료되었습니다!");
+          navigate("/purchase");
+        }
+      } else if (result.event == "cancel") {
+        alert("결제 취소");
       }
-      else if (result.event == 'cancel') {
-        alert('결제 취소');
-      }
-    }
-    else alert('장바구니에 물품이 없습니다!');
+    } else alert("장바구니에 물품이 없습니다!");
   };
 
   return (
@@ -142,52 +139,73 @@ function Cart(props) {
           </tr>
         </thead>
         <tbody>
-          {cartList ?
-          cartList.map((item, index) => {
-            return (
-            <tr key={item.postId}>
-              <td>{index + 1}</td>
-              <td>{item.title}</td>
-              <td>
-                <button
-                  className='count'
-                  onClick={() => { handleMinus(item.postId, item.count) }}
-                >
-                  -
-                </button>
-                {item.count}
-                <button 
-                  className='count'
-                  onClick={() => { handlePlus(item.postId) }}>
-                  +
-                </button>
-              </td>
-              <td>{formatter.format(item.price * item.count)}원</td>
-              <td><button type='button' className='delete-btn' onClick={() => {handleDelete(item.postId)}}>삭제</button></td>
+          {cartList ? (
+            cartList.map((item, index) => {
+              return (
+                <tr key={item.postId}>
+                  <td>{index + 1}</td>
+                  <td>{item.title}</td>
+                  <td>
+                    <button
+                      className="count"
+                      onClick={() => {
+                        handleMinus(item.postId, item.count);
+                      }}
+                    >
+                      -
+                    </button>
+                    {item.count}
+                    <button
+                      className="count"
+                      onClick={() => {
+                        handlePlus(item.postId);
+                      }}
+                    >
+                      +
+                    </button>
+                  </td>
+                  <td>{formatter.format(item.price * item.count)}원</td>
+                  <td>
+                    <button
+                      type="button"
+                      className="delete-btn"
+                      onClick={() => {
+                        handleDelete(item.postId);
+                      }}
+                    >
+                      삭제
+                    </button>
+                  </td>
+                </tr>
+              );
+            })
+          ) : (
+            <tr>
+              <td colSpan={5}>물품이 없습니다.</td>
             </tr>
-          )})
-          :
-          <tr>
-            <td colSpan={5}>물품이 없습니다.</td>
-          </tr>
-          }
+          )}
 
-          <tr className='total'>
+          <tr className="total">
             <th>합계</th>
             <td></td>
             <td></td>
             <th>
-              {cartList && formatter.format(
-                cartList.reduce((prev, cart) => {
-                  return prev + (cart.price * cart.count);
-                }, 0))}원
+              {cartList &&
+                formatter.format(
+                  cartList.reduce((prev, cart) => {
+                    return prev + cart.price * cart.count;
+                  }, 0)
+                )}
+              원
             </th>
             <td></td>
           </tr>
         </tbody>
       </Table>
 
-      <button type='button' className='payBtn' onClick={handlePay}>결제하기</button>
+      <button type="button" className="payBtn" onClick={handlePay}>
+        결제하기
+      </button>
     </CartWrapper>
   );
 }

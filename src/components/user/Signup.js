@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { pushUserInfo } from "../../features/userInfoSlice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../../image/logo_01.png";
@@ -153,18 +151,7 @@ function Signup(props) {
   const [signDogWeight, setSignDogWeight] = useState(); // 개몸무게
   const [signDogName, setSignDogName] = useState(); // 개이름
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   const signUserInfoGet = async () => {
-  //     const response = await axios.get(
-  //       `${process.env.REACT_APP_SERVER_DOMAIN}/user/register`
-  //     );
-  //     console.log(response);
-  //   };
-  //   signUserInfoGet();
-  // }, []);
 
   const changeId = (e) => {
     setSignId(e.target.value);
@@ -203,19 +190,13 @@ function Signup(props) {
 
   const handleSignUp = async () => {
     const userIdRegex = /^[a-zA-Z0-9]{4,10}$/;
-    const userpasswd =
-      /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
-    const regExp =
-      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    const userpasswd = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+    const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     try {
       if (!userIdRegex.test(signId)) {
-        alert(
-          "ID는 4자 이상 10자 이하 알파벳 대소문자, 숫자로만 구성되어야 합니다."
-        );
+        alert("ID는 4자 이상 10자 이하 알파벳 대소문자, 숫자로만 구성되어야 합니다.");
       } else if (!userpasswd.test(signPw)) {
-        alert(
-          "특수문자 / 문자 / 숫자 포함 형태의 8~15자리 이내의 암호를 입력해 주세요."
-        );
+        alert("특수문자 / 문자 / 숫자 포함 형태의 8~15자리 이내의 암호를 입력해 주세요.");
       } else if (!regExp.test(signEmail)) {
         alert("이메일을 잘못 입력하셨습니다.");
       } else if (!signId) {
@@ -235,17 +216,12 @@ function Signup(props) {
       } else if (!signDogName) {
         alert("반려견의 이름을 입력해 주세요.");
       } else {
-        const response = await axios.post(
-          `${process.env.REACT_APP_SERVER_DOMAIN}/user/register`,
-          userInput
-        );
+        const response = await axios.post(`${process.env.REACT_APP_SERVER_DOMAIN}/user/register`, userInput);
         console.log(response);
 
         if ((await response?.data.message) === "존재하는 ID 입니다") {
           alert("존재하는 ID 입니다.");
-        } else if (
-          (await response?.data.message) === "존재하는 이메일 입니다"
-        ) {
+        } else if ((await response?.data.message) === "존재하는 이메일 입니다") {
           alert("존재하는 이메일 입니다.");
         } else {
           navigate("/login");
@@ -288,83 +264,28 @@ function Signup(props) {
           </a>
           <h2>회원가입 페이지 입니다</h2>
           <label htmlFor="id" /> {/* 아이디 */}
-          <input
-            id="id"
-            type="text"
-            placeholder="id"
-            value={signId}
-            onChange={changeId}
-          />
+          <input id="id" type="text" placeholder="id" value={signId} onChange={changeId} />
           <label htmlFor="pw" /> {/* 비밀번호 */}
-          <input
-            id="pw"
-            type="password"
-            placeholder="password"
-            value={signPw}
-            onChange={changePw}
-          />
+          <input id="pw" type="password" placeholder="password" value={signPw} onChange={changePw} />
           <label htmlFor="email" /> {/* 비밀번호 */}
-          <input
-            id="email"
-            type="email"
-            placeholder="email"
-            value={signEmail}
-            onChange={changeEmail}
-          />
+          <input id="email" type="email" placeholder="email" value={signEmail} onChange={changeEmail} />
           <label htmlFor="userNicname" /> {/* 닉네임 */}
-          <input
-            id="userNicname"
-            type="text"
-            placeholder="Nicname"
-            value={signUserNicname}
-            onChange={changeNicname}
-          />
+          <input id="userNicname" type="text" placeholder="Nicname" value={signUserNicname} onChange={changeNicname} />
           <div className="dogType">
             <label htmlFor="signDogType" /> {/* 견종 */}
-            <input
-              id="signDogType"
-              type="text"
-              placeholder="DogType"
-              readOnly
-              value={signDogType}
-              onChange={changeDogType}
-            />
-            <select
-              id="signDogType"
-              value={signDogType}
-              onChange={changeDogType}
-            >
+            <input id="signDogType" type="text" placeholder="DogType" readOnly value={signDogType} onChange={changeDogType} />
+            <select id="signDogType" value={signDogType} onChange={changeDogType}>
               {spacies.map((a, index) => {
                 return <option key={index}>{a}</option>;
               })}
             </select>
           </div>
           <label htmlFor="signDogAge" /> {/* 개나이 */}
-          <input
-            id="signDogAge"
-            type="number"
-            min={0}
-            placeholder="DogAge"
-            value={signDogAge}
-            onChange={changeDogAge}
-          />
+          <input id="signDogAge" type="number" min={0} placeholder="DogAge" value={signDogAge} onChange={changeDogAge} />
           <label htmlFor="signDogWeight" /> {/* 개무게 */}
-          <input
-            id="signDogWeight"
-            type="number"
-            min={0}
-            placeholder="DogWeight"
-            value={signDogWeight}
-            onChange={changeDogWeigth}
-          />
+          <input id="signDogWeight" type="number" min={0} placeholder="DogWeight" value={signDogWeight} onChange={changeDogWeigth} />
           <label htmlFor="signDogName" /> {/* 개이름 */}
-          <input
-            id="signDogName"
-            type="text"
-            placeholder="DogName"
-            value={signDogName}
-            onChange={changeDogName}
-          />
+          <input id="signDogName" type="text" placeholder="DogName" value={signDogName} onChange={changeDogName} />
           <button onClick={handleSignUp}>회원가입</button>
           <h2>&nbsp;</h2>
         </div>

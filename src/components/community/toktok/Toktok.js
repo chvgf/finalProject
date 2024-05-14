@@ -97,8 +97,6 @@ function Toktok(props) {
   const [getList, setGetList] = useState();
   const [comment, setComment] = useState();
 
-  const 로그인중 = useSelector(getLoginUser); // 현재 로그인중 유저 정보
-
   useEffect(() => {
     const toktokListGet = async () => {
       try {

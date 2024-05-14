@@ -186,7 +186,7 @@ function ToktokItem(props) {
       </div>
       <div className="toktokColumn">
         <span>{props.user.signUserNicname} Lv.1</span>
-        <img src={props.imgUrl} />
+        <img src={props.imgUrl} alt="" />
       </div>
     </ToktokItemWrapper>
   );

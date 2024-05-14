@@ -221,7 +221,7 @@ function PersonalDog(props) {
                 >
                   <div className="sliderItem">
                     <p>{a.title.length > 13 ? a.title.slice(0, 13) + "..." : a.title}</p>
-                    <img src={`${a.imgUrl}`} />
+                    <img src={`${a.imgUrl}`} alt="perTokTok" />
                   </div>
                 </div>
               );
@@ -241,7 +241,7 @@ function PersonalDog(props) {
                 >
                   <div className="sliderItem">
                     <p>{a.title.length > 13 ? a.title.slice(0, 13) + "..." : a.title}</p>
-                    <img src={`${a.imgUrl}`} />
+                    <img src={`${a.imgUrl}`} alt="perFleamarket" />
                   </div>
                 </div>
               );
@@ -262,7 +262,7 @@ function PersonalDog(props) {
                 >
                   <div className="sliderItem">
                     <p>{a.title.length > 13 ? a.title.slice(0, 13) + "..." : a.title}</p>
-                    <img src={`${a.imgUrl}`} />
+                    <img src={`${a.imgUrl}`} alt="perShop" />
                   </div>
                 </div>
               );
@@ -303,23 +303,6 @@ function PersonalDog(props) {
           <KakaoMap />
         </div>
       </div>
-
-      {/* 견종, 나이별 맞춤제품/
-        각종 게시글 취합..?/
-        산책로 추천/
-        꺼무위키 정보..?/
-        블로그 추천..?/
-        등등...뭐가 있지/
-        ????????????????
-      필요한거:
-      쇼핑몰 맞춤 제품 구분할때 들어가는 데이터 소중대에서 나이,자견,성견,노견으로 바꿔야 할듯
-      맞춤페이지 기획안... ; ; ; 위에 써논거 들어갈 예정
-
-      회원가입시 견종 입력받고 그걸 토대로 소중대를 나눠..? 아님 소중대 아예 없애?
-      가입시 정보를 너무 많이 받으면 클라이언트들이 너무 귀찮아할 거 같음..  ===
-      === 물어봤더니 견주입장에선 귀찮더라도 한번 쓰고 자세한 정보를 얻을 수 있으면 좋을 것 같다...
-
-      게시글 작성시 로그인중인 유저의 강아지의 나이, 견종 태그 들어가기 위해서 작성시 같이 데이터 정보를 보낼 */}
     </PersonalDogWrapper>
   );
 }

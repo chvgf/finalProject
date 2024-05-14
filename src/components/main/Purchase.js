@@ -1,16 +1,16 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { getLoginUser } from '../../features/userInfoSlice';
-import { Table } from 'react-bootstrap';
-import { dateFormat } from '../../util';
+import React, { Fragment, useEffect, useState } from "react";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { getLoginUser } from "../../features/userInfoSlice";
+import { Table } from "react-bootstrap";
+import { dateFormat } from "../../util";
 
 const PurchaseWrap = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  
+
   h2 {
     padding: 10px 0;
     font-size: 30px;
@@ -58,9 +58,8 @@ const PurchaseWrap = styled.div`
     border: none;
     display: flex;
     justify-content: center;
-
   }
-   .shop-btn:hover {
+  .shop-btn:hover {
     background-color: #3e8bf7;
   }
 `;
@@ -68,21 +67,20 @@ const PurchaseWrap = styled.div`
 function Purchase(props) {
   const navigate = useNavigate();
   const [purchaseList, setPurchaseList] = useState([]);
-  const loginUser = useSelector(getLoginUser);
-  const formatter = new Intl.NumberFormat('ko-KR');
+  const formatter = new Intl.NumberFormat("ko-KR");
 
   useEffect(() => {
     const purchaseList = async () => {
       const result = await axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/shop/purchase`, { withCredentials: true });
       if (result.data) setPurchaseList(result.data.list);
-    }
+    };
     purchaseList();
   }, []);
 
   return (
     <PurchaseWrap>
       <h2>주문 내역</h2>
-      <Table className='table' hover>
+      <Table className="table" hover>
         <thead>
           <tr>
             <th>주문 날짜</th>
@@ -92,34 +90,45 @@ function Purchase(props) {
           </tr>
         </thead>
         <tbody>
-        {purchaseList.length ? purchaseList.map((item, index) => {
-          console.log(item);
-          return (
-            <Fragment key={index}>
-              <tr>
-                <td className='date'>{dateFormat(item.date)}</td>
-              </tr>
-              {item.list &&
-                item.list.map((item, i) => {
-                return (
-                  <tr key={i}>
-                    <td></td>
-                    <td>{item.title}</td>
-                    <td>{item.count}</td>
-                    <td>{formatter.format(item.price * item.count)}원</td>
+          {purchaseList.length ? (
+            purchaseList.map((item, index) => {
+              console.log(item);
+              return (
+                <Fragment key={index}>
+                  <tr>
+                    <td className="date">{dateFormat(item.date)}</td>
                   </tr>
-              )})}
-            </Fragment>
-            )
-          })
-          :
-          <tr className='empty-list'>
-            <td>구매내역이 없습니다.</td>
-            <td></td>
-            <td><button className='shop-btn cursor-pointer' onClick={() => {navigate('/shop')}}>쇼핑으로 이동</button></td>
-            <td></td>
-          </tr>
-        }
+                  {item.list &&
+                    item.list.map((item, i) => {
+                      return (
+                        <tr key={i}>
+                          <td></td>
+                          <td>{item.title}</td>
+                          <td>{item.count}</td>
+                          <td>{formatter.format(item.price * item.count)}원</td>
+                        </tr>
+                      );
+                    })}
+                </Fragment>
+              );
+            })
+          ) : (
+            <tr className="empty-list">
+              <td>구매내역이 없습니다.</td>
+              <td></td>
+              <td>
+                <button
+                  className="shop-btn cursor-pointer"
+                  onClick={() => {
+                    navigate("/shop");
+                  }}
+                >
+                  쇼핑으로 이동
+                </button>
+              </td>
+              <td></td>
+            </tr>
+          )}
         </tbody>
       </Table>
     </PurchaseWrap>

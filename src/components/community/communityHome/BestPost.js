@@ -74,7 +74,7 @@ function BestPost(props) {
           {items.map((item) => {
             return (
               <StyledCol sm key={item._id} onClick={() => handleMove(item)}>
-                <img src={item.imgUrl ? item.imgUrl : nophoto} />
+                <img src={item.imgUrl ? item.imgUrl : nophoto} alt="" />
                 <h4>{mappings[item.type]}</h4>
                 <h3>{item.title}</h3>
               </StyledCol>

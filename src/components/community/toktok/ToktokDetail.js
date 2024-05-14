@@ -96,7 +96,7 @@ function ToktokDetail(props) {
         </h5>
         <h5>{date?.toString().slice(0, 21)}</h5>
         <p>{getDetailList?.content}</p>
-        {<img src={getDetailList ? `${getDetailList?.imgUrl}` : ""} />}
+        {<img src={getDetailList ? `${getDetailList?.imgUrl}` : ""} alt="" />}
       </div>
 
       <hr />

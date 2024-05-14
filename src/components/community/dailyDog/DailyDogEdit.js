@@ -1,16 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Editor } from '@toast-ui/react-editor';
-import '@toast-ui/editor/dist/toastui-editor.css';
-import '@toast-ui/editor/dist/i18n/ko-kr';
-import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
-import 'tui-color-picker/dist/tui-color-picker.css';
-import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
-import { getLoginUser } from '../../../features/userInfoSlice';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from "react";
+import { Editor } from "@toast-ui/react-editor";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import "@toast-ui/editor/dist/i18n/ko-kr";
+import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
+import "tui-color-picker/dist/tui-color-picker.css";
+import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
+import styled from "styled-components";
+import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { getLoginUser } from "../../../features/userInfoSlice";
+import { useParams } from "react-router-dom";
 
 const DailyDogEditContainer = styled.div`
   max-width: 1200px;
@@ -56,7 +56,7 @@ const DailyDogEditContainer = styled.div`
     }
   }
 
-   .ProseMirror-widget {
+  .ProseMirror-widget {
     background: #fff;
     font-size: 16px;
     cursor: text;
@@ -65,17 +65,17 @@ const DailyDogEditContainer = styled.div`
 
 function DailyDogEdit(props) {
   // 이미지 첨부 시 바로 s3에 저장 됨
-  // 해결: 백에서 images와 content와 비교하여 값이 없으면 s3의 image를 삭제해라 
+  // 해결: 백에서 images와 content와 비교하여 값이 없으면 s3의 image를 삭제해라
   const navigate = useNavigate();
   const user = useSelector(getLoginUser);
   const { postId } = useParams();
 
-  const [ values, setValues ] = useState({
-    title: '',
-    content: '',
+  const [values, setValues] = useState({
+    title: "",
+    content: "",
   });
-  const [ images, setImages ] = useState([]);
-  const [ imagesKey, setImagesKey ] = useState([]);
+  const [images, setImages] = useState([]);
+  const [imagesKey, setImagesKey] = useState([]);
 
   const { title, content } = values;
 
@@ -85,22 +85,22 @@ function DailyDogEdit(props) {
     const dailyDogEditData = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/community/daily/edit/${postId}`);
-        setValues(prev => ({ ...prev, title: response.data.data.title, author: response.data.data.author }));
-        editorRef.current?.getInstance().setHTML(response.data.data.content)
+        setValues((prev) => ({ ...prev, title: response.data.data.title, author: response.data.data.author }));
+        editorRef.current?.getInstance().setHTML(response.data.data.content);
 
-        setImages(image => [ ...image, ...response.data.data.imgUrl ]);
-        setImagesKey(image => [ ...image, ...response.data.data.imgKey ]);
-        
+        setImages((image) => [...image, ...response.data.data.imgUrl]);
+        setImagesKey((image) => [...image, ...response.data.data.imgKey]);
+
         if (user) {
           if (!(user.signUserNicname === response.data.data.author)) {
-            alert('수정 권한이 없습니다.')
+            alert("수정 권한이 없습니다.");
             return navigate(-1);
           }
         }
       } catch (err) {
         console.error(err);
       }
-    }
+    };
     dailyDogEditData();
   }, []);
 
@@ -108,23 +108,23 @@ function DailyDogEdit(props) {
   // https://kim-hasa.tistory.com/133
   useEffect(() => {
     if (editorRef.current) {
-      editorRef.current.getInstance().removeHook('addImageBlobHook');
-      editorRef.current.getInstance().addHook('addImageBlobHook', (blob, callback) => {
+      editorRef.current.getInstance().removeHook("addImageBlobHook");
+      editorRef.current.getInstance().addHook("addImageBlobHook", (blob, callback) => {
         (async () => {
           let formData = new FormData();
-          formData.append('img', blob);
+          formData.append("img", blob);
 
           const response = await axios.post(`${process.env.REACT_APP_SERVER_DOMAIN}/community/daily/insert/image`, formData, {
-            header: { 'content-type': 'multipart/formdata' },
+            header: { "content-type": "multipart/formdata" },
             withCredentials: true,
           });
 
           const imageUrl = `${response.data.fileName}`;
           const imageKey = `${response.data.fileKey}`;
-          setImages(image => [ ...image, imageUrl ]);
-          setImagesKey(imagekey => [ ...imagekey, imageKey ]);
+          setImages((image) => [...image, imageUrl]);
+          setImagesKey((imagekey) => [...imagekey, imageKey]);
 
-          callback(imageUrl, 'img');
+          callback(imageUrl, "img");
         })();
 
         return false;
@@ -135,26 +135,30 @@ function DailyDogEdit(props) {
   }, [editorRef]);
 
   const titleOnChange = (e) => {
-   const title = e.target.value
-   setValues(value => ({ ...value, title }));
+    const title = e.target.value;
+    setValues((value) => ({ ...value, title }));
   };
 
   const contentOnChange = () => {
     const content = editorRef.current?.getInstance().getHTML();
-    setValues(value => ({ ...value, content }));
+    setValues((value) => ({ ...value, content }));
   };
 
   const handleSubmitValue = async () => {
-
     if (!title) {
-      return alert('제목을 입력해주세요.');
-    } else if (!content || content == '<p><br></p>') {
-      return alert('내용을 입력해주세요.');
+      return alert("제목을 입력해주세요.");
+    } else if (!content || content == "<p><br></p>") {
+      return alert("내용을 입력해주세요.");
     } else {
       try {
-        await axios.patch(`${process.env.REACT_APP_SERVER_DOMAIN}/community/daily/edit/${postId}`, { title, content, imgUrl: images, imgKey: imagesKey })
-        alert('게시글이 수정되었습니다.');
-        navigate('/community/dailyDog');
+        await axios.patch(`${process.env.REACT_APP_SERVER_DOMAIN}/community/daily/edit/${postId}`, {
+          title,
+          content,
+          imgUrl: images,
+          imgKey: imagesKey,
+        });
+        alert("게시글이 수정되었습니다.");
+        navigate("/community/dailyDog");
       } catch (err) {
         console.error(err);
       }
@@ -164,11 +168,11 @@ function DailyDogEdit(props) {
   return (
     <DailyDogEditContainer>
       <h1>데일리독 글수정</h1>
-      <div className='tip-box'>
+      <div className="tip-box">
         <p>* 첫번째로 삽입한 이미지가 대표 이미지가 되며 업로드 시 이미지의 크기는 460*360으로 고정 됩니다.</p>
         <p>* 작성하신 글은 자동으로 가운데 정렬 됩니다.</p>
       </div>
-      <input type='text' defaultValue={title} onChange={titleOnChange} placeholder='제목을 입력해주세요' />
+      <input type="text" defaultValue={title} onChange={titleOnChange} placeholder="제목을 입력해주세요" />
       <Editor
         ref={editorRef}
         placeholder="내용을 입력해주세요."
@@ -180,8 +184,8 @@ function DailyDogEdit(props) {
         plugins={[colorSyntax]}
         hideModeSwitch={true}
         onChange={contentOnChange}
-      />  
-      <div className='btn-box'>
+      />
+      <div className="btn-box">
         <button onClick={() => navigate(-1)}>취소</button>
         <button onClick={handleSubmitValue}>수정</button>
       </div>

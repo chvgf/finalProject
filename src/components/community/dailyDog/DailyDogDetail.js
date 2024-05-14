@@ -5,7 +5,7 @@ import styled from "styled-components";
 import axios from "axios";
 import DailyDogComment from "./DailyDogComment";
 import { BiLike, BiDislike } from "react-icons/bi";
-import { dateFormat, needLogin } from "../../../util";
+import { dateFormat } from "../../../util";
 import { getLoginUser } from "../../../features/userInfoSlice";
 import { useSelector } from "react-redux";
 

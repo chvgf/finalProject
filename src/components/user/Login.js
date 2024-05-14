@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import styled from "styled-components";
-import { getLoginUser, getLoginUserInfo, pushUserInfo, selectUserList } from "../../features/userInfoSlice";
+import { getLoginUser, getLoginUserInfo } from "../../features/userInfoSlice";
 import axios from "axios";
 import logo from "../../image/logo_01.png";
 

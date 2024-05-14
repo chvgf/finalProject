@@ -1,5 +1,5 @@
-import React from 'react';
-import axios from 'axios';
+import React from "react";
+import axios from "axios";
 
 // 카테고리 이미지 import
 import myPet from "../../image/mypet.png";
@@ -8,19 +8,19 @@ import feed from "../../image/feed.png";
 import accessory from "../../image/accessory.png";
 import snack from "../../image/snack.png";
 import beauty from "../../image/beauty.png";
-import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { getProducts, getSelectedCategory, selectProductList } from '../../features/productSlice';
+import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { getProducts, getSelectedCategory } from "../../features/productSlice";
 
 const StyledCategory = styled.ul`
   display: flex;
   justify-content: space-evenly;
   padding: 100px 0;
-  margin: 0 60px ;
+  margin: 0 60px;
   li + li {
     margin-left: 10px;
-  };
-   img.cate-st {
+  }
+  img.cate-st {
     /* background-color: #f7f7f7; */
     background-repeat: no-repeat;
     background-position: center;
@@ -31,7 +31,7 @@ const StyledCategory = styled.ul`
     /* border: 1px solid #000; */
   }
 
-  li img.cate-1  {
+  li img.cate-1 {
     background-image: url(${myPet});
   }
   li img.cate-2 {
@@ -57,57 +57,56 @@ const StyledCategory = styled.ul`
   }
 `;
 
-
 function ShopCategory(props) {
   const dispatch = useDispatch();
 
   // 카테고리 별 페이지 요청 할 axios
   const axiosAll = async () => {
-    dispatch(getSelectedCategory(''));
+    dispatch(getSelectedCategory(""));
     const result = await axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/shop/`);
     dispatch(getProducts(result.data.posts));
   };
   const axiosFeed = async () => {
-    dispatch(getSelectedCategory('feed'));
+    dispatch(getSelectedCategory("feed"));
     const result = await axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/shop/category/feed`);
     dispatch(getProducts(result.data.posts));
   };
   const axiosSnack = async () => {
-    dispatch(getSelectedCategory('snack'));
+    dispatch(getSelectedCategory("snack"));
     const result = await axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/shop/category/snack`);
     dispatch(getProducts(result.data.posts));
   };
   const axiosPlay = async () => {
-    dispatch(getSelectedCategory('play'));
+    dispatch(getSelectedCategory("play"));
     const result = await axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/shop/category/play`);
     dispatch(getProducts(result.data.posts));
   };
   const axiosHygiene = async () => {
-    dispatch(getSelectedCategory('hygiene'));
+    dispatch(getSelectedCategory("hygiene"));
     const result = await axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/shop/category/hygiene`);
     dispatch(getProducts(result.data.posts));
   };
-  
+
   return (
     <StyledCategory>
       <li onClick={axiosAll}>
-        <img className='cate-2 cate-st cursor-pointer'/>
+        <img className="cate-2 cate-st cursor-pointer" alt="" />
         <p>전체상품</p>
       </li>
       <li onClick={axiosFeed}>
-        <img className='cate-3 cate-st cursor-pointer'/>
+        <img className="cate-3 cate-st cursor-pointer" alt="" />
         <p>사료</p>
       </li>
       <li onClick={axiosSnack}>
-        <img className='cate-4 cate-st cursor-pointer'/>
+        <img className="cate-4 cate-st cursor-pointer" alt="" />
         <p>간식/영양제</p>
       </li>
       <li onClick={axiosPlay}>
-        <img className='cate-5 cate-st cursor-pointer'/>
+        <img className="cate-5 cate-st cursor-pointer" alt="" />
         <p>산책/놀이</p>
       </li>
       <li onClick={axiosHygiene}>
-        <img className='cate-6 cate-st cursor-pointer'/>
+        <img className="cate-6 cate-st cursor-pointer" alt="" />
         <p>배변/위생</p>
       </li>
     </StyledCategory>

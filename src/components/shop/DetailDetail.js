@@ -1,10 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 import dog from "../../image/dog.png";
-import { useNavigate } from 'react-router';
-import { getLoginUser } from '../../features/userInfoSlice';
-import { useSelector } from 'react-redux';
-
+import { useNavigate } from "react-router";
+import { getLoginUser } from "../../features/userInfoSlice";
+import { useSelector } from "react-redux";
 
 const DetailBox = styled.div`
   margin: 50px auto;
@@ -51,11 +50,11 @@ const DetailBox = styled.div`
   .top-wrap .top-text {
     width: 60%;
   }
-  .top-wrap .top-text p{
+  .top-wrap .top-text p {
     margin-bottom: 7px;
   }
   .top-wrap .top-text .weight::before {
-    content: '';
+    content: "";
     display: inline-block;
     width: 2px;
     height: 2px;
@@ -79,12 +78,12 @@ const DetailBox = styled.div`
   .top-wrap .top-myPage {
     width: 10%;
     align-self: flex-start;
-    padding: 20px 0px 0px 0px ;
+    padding: 20px 0px 0px 0px;
     font-weight: bold;
     color: #555;
   }
   .top-wrap .top-myPage .more::after {
-    content: '';
+    content: "";
     width: 13px;
     height: 13px;
     margin-left: 5px;
@@ -99,7 +98,7 @@ const DetailBox = styled.div`
     border: 2px solid #eee;
     border-radius: 10px;
     box-shadow: 0 0 10px #eee;
-    background-color:rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.4);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -122,7 +121,7 @@ const DetailBox = styled.div`
     font-weight: bold;
   }
   .top-wrap-copy .login-btn::after {
-    content: '';
+    content: "";
     width: 10px;
     height: 10px;
     margin-left: 5px;
@@ -135,45 +134,55 @@ const DetailBox = styled.div`
 `;
 
 function DetailDetail(props) {
-  const { title, price, rate, content, age, size, brand } = props.product;
+  const { title, price, rate, age, size, brand } = props.product;
   const navigate = useNavigate();
   const loginUser = useSelector(getLoginUser);
 
   return (
     <DetailBox>
       <h1>강아지 정보🔎</h1>
-        {
-          loginUser ? (
-            <div className='top-wrap'>
-              <img src={dog} alt='강아지 프로필 사진'/>
-              <div className='top-text'>
-                <p className='name'>{loginUser.signDogName}</p>
-                <span>{loginUser.signDogAge}살</span>
-                <span className='weight'>{loginUser.signDogWeight}kg</span>
-                <p className='type'>{loginUser.signDogType}</p>
-              </div>
-              <div className='top-myPage cursor-pointer' onClick={() => {navigate('/mypage')}}>
-                <span className='more'>더보기</span>
-              </div>
-            </div>
-          ) : (
-            <div className='top-wrap-copy'>
-              <h2>지금 로그인하고 <br className='mg-t' /> 내 강아지에게 맞는 상품인지 확인해보세요!</h2>
-              <span className='login-btn cursor-pointer' onClick={() => {navigate('/login')}}>로그인/회원가입</span>
-            </div>
-          )
-        }
-        
-      
-        
+      {loginUser ? (
+        <div className="top-wrap">
+          <img src={dog} alt="강아지 프로필 사진" />
+          <div className="top-text">
+            <p className="name">{loginUser.signDogName}</p>
+            <span>{loginUser.signDogAge}살</span>
+            <span className="weight">{loginUser.signDogWeight}kg</span>
+            <p className="type">{loginUser.signDogType}</p>
+          </div>
+          <div
+            className="top-myPage cursor-pointer"
+            onClick={() => {
+              navigate("/mypage");
+            }}
+          >
+            <span className="more">더보기</span>
+          </div>
+        </div>
+      ) : (
+        <div className="top-wrap-copy">
+          <h2>
+            지금 로그인하고 <br className="mg-t" /> 내 강아지에게 맞는 상품인지 확인해보세요!
+          </h2>
+          <span
+            className="login-btn cursor-pointer"
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            로그인/회원가입
+          </span>
+        </div>
+      )}
+
       <h1>상세정보🔍</h1>
-      <div className='tableBox'>
+      <div className="tableBox">
         <table>
           <colgroup>
-            <col width='10%'/>
-            <col width='40%'/>
-            <col width='10%'/>
-            <col width='40%'/>
+            <col width="10%" />
+            <col width="40%" />
+            <col width="10%" />
+            <col width="40%" />
           </colgroup>
           <tbody>
             <tr>
@@ -184,27 +193,19 @@ function DetailDetail(props) {
             </tr>
             <tr>
               <th>평점</th>
-              {rate ? 
-                <td>{rate}점</td>
-                :<td>평점없음</td>
-              }
+              {rate ? <td>{rate}점</td> : <td>평점없음</td>}
               <th>가격</th>
               <td>{price}원</td>
             </tr>
             <tr>
               <th>권장 나이</th>
-              <td>{age === 'junior' ? '0~5살'
-                  :age === 'adult' ? '6~10살'
-                  : '11살 이상'}</td>
+              <td>{age === "junior" ? "0~5살" : age === "adult" ? "6~10살" : "11살 이상"}</td>
               <th>권장 크기</th>
-              <td>{size === 'small' ? '소형견'
-                  :size === 'medium' ? '중형견'
-                  : '대형견'}</td>
+              <td>{size === "small" ? "소형견" : size === "medium" ? "중형견" : "대형견"}</td>
             </tr>
           </tbody>
         </table>
       </div>
-
     </DetailBox>
   );
 }

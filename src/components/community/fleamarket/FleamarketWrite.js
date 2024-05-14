@@ -305,7 +305,7 @@ function FleamarketWrite(props) {
           images.map((item, index) => {
             return (
               <React.Fragment key={index}>
-                <img id="image" src={item} onClick={() => handleClickImage(index)} />
+                <img id="image" src={item} onClick={() => handleClickImage(index)} alt="" />
               </React.Fragment>
             );
           })}

@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css"
-import styled from 'styled-components';
-import main1 from '../../../image/main1.jpg'
-import main2 from '../../../image/main2.jpg'
-import main3 from '../../../image/main3.jpg'
-import main4 from '../../../image/main4.jpg'
+import "slick-carousel/slick/slick-theme.css";
+import styled from "styled-components";
+import main1 from "../../../image/main1.jpg";
+import main2 from "../../../image/main2.jpg";
+import main3 from "../../../image/main3.jpg";
+import main4 from "../../../image/main4.jpg";
 
 const CommunitySlideContainer = styled.div`
   max-width: 1200px;
@@ -63,14 +63,15 @@ const StyledSlide = styled(Slider)`
     width: 100%;
     height: 100%;
   }
-    
+
   .slick-list {
     max-width: 800px;
     margin: 0 auto;
     background-color: #cccccc;
   }
-  
-  .slick-prev, .slick-next {
+
+  .slick-prev,
+  .slick-next {
     position: absolute;
     z-index: 1;
   }
@@ -92,44 +93,43 @@ const StyledSlide = styled(Slider)`
     font-size: 10px;
   }
 
-  .slick-prev:before, .slick-next:before{
+  .slick-prev:before,
+  .slick-next:before {
     /* position: relative; */
-    font-family: 'slick';
+    font-family: "slick";
     font-size: 40px;
     line-height: 1;
-    opacity: .75;
+    opacity: 0.75;
     /* color: #c9bbbb; */
     color: #fff;
     -webkit-font-smoothing: antialiased;
-  }  
+  }
   /* .slick-prev:before:hover, .slick-next:before:hover {
     color: #333;
   } */
 `;
 
 function CommunitySlide(props) {
-
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     autoplay: true,
     autoplaySpeed: 4000,
-    pauseOnHover : true,
+    pauseOnHover: true,
     slidesToShow: 1,
     slidesToScroll: 1,
-    responsive: [ // 반응형 웹 구현 옵션
-		{  
-			breakpoint: 960, //화면 사이즈 960px일 때
-			settings: {
-			} 
-		},
-		{ 
-			breakpoint: 768, //화면 사이즈 768px일 때
-			settings: {	
-			} 
-		}
-	]
+    responsive: [
+      // 반응형 웹 구현 옵션
+      {
+        breakpoint: 960, //화면 사이즈 960px일 때
+        settings: {},
+      },
+      {
+        breakpoint: 768, //화면 사이즈 768px일 때
+        settings: {},
+      },
+    ],
   };
 
   return (
@@ -137,24 +137,27 @@ function CommunitySlide(props) {
       <div>
         <StyledSlide {...settings}>
           <div>
-            <img src='https://post-phinf.pstatic.net/MjAyMjAyMTdfMiAg/MDAxNjQ1MDg1MDIwMDIw.QvAeSvFkAWlGvGsL41R4EEtlENm5tvF3Xs4GRc26Orsg.KW-Q0fDbT3mMS0yF5agjz6KI9M-uNOXujrbNxHtV1OAg.PNG/Thum_40%EC%A3%BC.png?type=w1200' />
+            <img
+              src="https://post-phinf.pstatic.net/MjAyMjAyMTdfMiAg/MDAxNjQ1MDg1MDIwMDIw.QvAeSvFkAWlGvGsL41R4EEtlENm5tvF3Xs4GRc26Orsg.KW-Q0fDbT3mMS0yF5agjz6KI9M-uNOXujrbNxHtV1OAg.PNG/Thum_40%EC%A3%BC.png?type=w1200"
+              alt=""
+            />
           </div>
           <div>
-            <img src='https://cdn.woodkorea.co.kr/news/photo/201911/38944_46314_202.jpg' />
+            <img src="https://cdn.woodkorea.co.kr/news/photo/201911/38944_46314_202.jpg" alt="" />
           </div>
           <div>
-            <img src='https://image.msbg.io/?p=mocoblob.blob.core.windows.net%2Fassets%2Fmagazine%2Fimg%2F14_1705286223524_0.png' />
+            <img src="https://image.msbg.io/?p=mocoblob.blob.core.windows.net%2Fassets%2Fmagazine%2Fimg%2F14_1705286223524_0.png" alt="" />
           </div>
         </StyledSlide>
       </div>
       <div>
-        <div className='img-box1'>
-          <img src={main2} />
-          <img src={main1} />
+        <div className="img-box1">
+          <img src={main2} alt="slide" />
+          <img src={main1} alt="slide" />
         </div>
-        <div className='img-box2'>
-          <img src={main4} />
-          <img src={main3} />
+        <div className="img-box2">
+          <img src={main4} alt="slide" />
+          <img src={main3} alt="slide" />
         </div>
       </div>
     </CommunitySlideContainer>

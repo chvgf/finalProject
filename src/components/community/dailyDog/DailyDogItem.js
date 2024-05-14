@@ -1,9 +1,9 @@
-import React from 'react';
-import nophoto from '../../../image/nophoto.jpg'
-import { Col } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import axios from 'axios';
+import React from "react";
+import nophoto from "../../../image/nophoto.jpg";
+import { Col } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import axios from "axios";
 
 const StyledCol = styled(Col)`
   cursor: pointer;
@@ -41,21 +41,19 @@ const StyledCol = styled(Col)`
         height: 100%;
         margin-right: 5px;
       }
-  
+
       h3 {
         font-weight: bold;
         font-size: 15px;
       }
     }
-    
+
     p {
       font-size: 14px;
       color: #222;
       opacity: 0.6;
     }
   }
-
-
 `;
 
 const ItemImage = styled.img`
@@ -67,36 +65,39 @@ const ItemImage = styled.img`
 `;
 
 function DailyDogItem(props) {
-  const { item: { _id, id, title, imgUrl, author, view, like } } = props;
+  const {
+    item: { _id, id, title, imgUrl, author, view, like },
+  } = props;
 
   const navigate = useNavigate();
 
   const handleItemClick = async () => {
     try {
       await axios.patch(`${process.env.REACT_APP_SERVER_DOMAIN}/community/daily/view/${_id}`);
-      navigate(`/community/dailydog/detail/${id}`)
+      navigate(`/community/dailydog/detail/${id}`);
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   return (
     <>
       <StyledCol md={4} onClick={handleItemClick}>
-        {imgUrl[0] 
-          ? <ItemImage src={imgUrl[0]} />
-          : <ItemImage src={nophoto} /> 
-        }
-        <div className='item-box'>
+        {imgUrl[0] ? <ItemImage src={imgUrl[0]} /> : <ItemImage src={nophoto} />}
+        <div className="item-box">
           <h2>{title}</h2>
-          <div className='author-info'>
-            <img src='https://i.namu.wiki/i/Bge3xnYd4kRe_IKbm2uqxlhQJij2SngwNssjpjaOyOqoRhQlNwLrR2ZiK-JWJ2b99RGcSxDaZ2UCI7fiv4IDDQ.webp' />
+          <div className="author-info">
+            <img
+              src="https://i.namu.wiki/i/Bge3xnYd4kRe_IKbm2uqxlhQJij2SngwNssjpjaOyOqoRhQlNwLrR2ZiK-JWJ2b99RGcSxDaZ2UCI7fiv4IDDQ.webp"
+              alt=""
+            />
             <h3>{author}</h3>
           </div>
-          <p>조회 {view} &nbsp;좋아요 {like ? like.length : 0}</p>
+          <p>
+            조회 {view} &nbsp;좋아요 {like ? like.length : 0}
+          </p>
         </div>
       </StyledCol>
-    
     </>
   );
 }

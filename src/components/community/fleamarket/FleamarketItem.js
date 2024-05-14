@@ -1,9 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
-import Col from 'react-bootstrap/Col';
-import testImage from '../../../image/app.jpg'
-import { useNavigate } from 'react-router';
-import axios from 'axios';
+import React from "react";
+import styled from "styled-components";
+import Col from "react-bootstrap/Col";
+import testImage from "../../../image/app.jpg";
+import { useNavigate } from "react-router";
+import axios from "axios";
 
 const StyledCol = styled(Col)`
   cursor: pointer;
@@ -28,7 +28,7 @@ const StyledCol = styled(Col)`
   h3 {
     font-size: 15px;
   }
-`; 
+`;
 
 const ItemImage = styled.img`
   width: 100%;
@@ -39,45 +39,47 @@ const ItemImage = styled.img`
 `;
 
 const mappings = {
-  feed: '사료',
-  snackNutritional: '간식/영양제',
-  bowelHygiene: '배변/위생',
-  walkPlay: '산책/놀이',
-  seoul: '서울특별시',
-  gyeonggi: '경기도',
-  incheon: '인천광역시',
-  daejeon: '대전광역시',
-  daegu: '대구광역시',
-  gwangju: '광주광역시',
-  busan: '부산광역시',
-  gangwon: '강원도',
-  ulsan: '울산광역시',
-  jeju: '제주특별자치도'
-}
+  feed: "사료",
+  snackNutritional: "간식/영양제",
+  bowelHygiene: "배변/위생",
+  walkPlay: "산책/놀이",
+  seoul: "서울특별시",
+  gyeonggi: "경기도",
+  incheon: "인천광역시",
+  daejeon: "대전광역시",
+  daegu: "대구광역시",
+  gwangju: "광주광역시",
+  busan: "부산광역시",
+  gangwon: "강원도",
+  ulsan: "울산광역시",
+  jeju: "제주특별자치도",
+};
 
 function FleamarketItem(props) {
-  const { item: { _id, id, title, price, category, area, src, imgUrl }, index } = props;
+  const {
+    item: { _id, id, title, price, category, area, imgUrl },
+    index,
+  } = props;
 
   const navigate = useNavigate();
 
   const handleItemClick = async () => {
     try {
       await axios.patch(`${process.env.REACT_APP_SERVER_DOMAIN}/vintage/view/${_id}`);
-      navigate(`/community/fleamarket/${id}`)
+      navigate(`/community/fleamarket/${id}`);
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   return (
     <StyledCol md={3} onClick={handleItemClick}>
-      {imgUrl
-        ? <ItemImage src={imgUrl[0]} />
-        : <ItemImage src={testImage} />
-      }
-      <h4>{mappings[category]} / {mappings[area]}</h4>
+      {imgUrl ? <ItemImage src={imgUrl[0]} /> : <ItemImage src={testImage} />}
+      <h4>
+        {mappings[category]} / {mappings[area]}
+      </h4>
       <h2>{title}</h2>
-      <h3>{Number(price).toLocaleString('kr-KR')}원</h3>
+      <h3>{Number(price).toLocaleString("kr-KR")}원</h3>
     </StyledCol>
   );
 }

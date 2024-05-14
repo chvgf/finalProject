@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { selectToktokList } from "../../../features/dailyDogSlice";
 import styled from "styled-components";
@@ -73,7 +73,6 @@ function NewToktok(props) {
   const { items } = props;
 
   const navigate = useNavigate();
-  const testList = useSelector(selectToktokList);
   return (
     <NewToktokContainer>
       <StyledTable responsive="sm">
@@ -91,7 +90,7 @@ function NewToktok(props) {
             return (
               <tr key={item._id} onClick={() => navigate(`/community/Toktok/${item.author}`)}>
                 <td>
-                  <img src={item.imgUrl ? item.imgUrl : nophoto} />
+                  <img src={item.imgUrl ? item.imgUrl : nophoto} alt="" />
                 </td>
                 <td>{item.title}</td>
                 <td>{item.content}</td>

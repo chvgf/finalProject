@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const RatingBox = styled.div`
   margin: 0 auto;
 
   & svg {
-    color: #C4C4C4;
+    color: #c4c4c4;
     cursor: pointer;
   }
   :hover svg {
-    color: #B4BDFF;
+    color: #b4bdff;
   }
   & svg:hover ~ svg {
-    color: #C4C4C4;
+    color: #c4c4c4;
   }
   .true {
-    color: #B4BDFF;
+    color: #b4bdff;
   }
 `;
 
-const array = [ 0, 1, 2, 3, 4 ];
+const array = [0, 1, 2, 3, 4];
 
-function Star({handleStar}) {
-  const [ clicked, setClicked ] = useState([false, false, false, false, false]);
+function Star({ handleStar }) {
+  const [clicked, setClicked] = useState([false, false, false, false, false]);
 
   const handleStarClick = (index) => {
     let clickStates = [...clicked];
@@ -34,25 +34,26 @@ function Star({handleStar}) {
 
     const sum = clickStates.reduce(function (a, b) {
       return a + b;
-    })
+    });
     handleStar(sum);
   };
-
 
   return (
     <RatingBox>
       {array.map((item, index) => {
         return (
-          <FaStar 
+          <FaStar
             key={index}
-            onClick={() => {handleStarClick(item)}}
-            className={clicked[item] && 'true'}
+            onClick={() => {
+              handleStarClick(item);
+            }}
+            className={clicked[item] && "true"}
             size="35"
           />
-        )
+        );
       })}
     </RatingBox>
   );
-} 
+}
 
 export default Star;
